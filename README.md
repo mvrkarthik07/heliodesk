@@ -97,41 +97,40 @@ cd heliodesk
 npm install
 ```
 
-Core dashboard layout implemented
+## Current Status
 
-Authentication integrated
+- Core dashboard layout implemented
+- Authentication integrated
+- Initial widget framework in place
 
-Initial widget framework in place
+HelioDesk is **actively under development**, with stability and architecture as the current focus.
 
-HelioDesk is actively under development, with stability and architecture as the current focus.
+---
 
-Roadmap
+## Roadmap
 
-Planned enhancements include:
+Planned enhancements:
 
-Calendar integration
+- Calendar integration
+- Email and notification widgets
+- Productivity analytics and insights
+- User-configurable layouts
+- Performance optimisations
 
-Email and notification widgets
+---
 
-Productivity analytics and insights
+## Design Philosophy
 
-User-configurable layouts
+HelioDesk is not designed to be a superficial dashboard. It prioritises:
 
-Performance optimisations
+- Engineering discipline
+- Clean system design
+- Scalable frontend architecture
+- Practical, real-world usability
 
-Design Philosophy
+---
 
-HelioDesk is not designed to be a superficial dashboard.
-It focuses on:
-
-Engineering discipline
-
-Clean system design
-
-Scalable frontend architecture
-
-Practical, real-world usability
-
-License
+## License
 
 MIT License
+
