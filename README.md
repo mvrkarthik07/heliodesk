@@ -95,7 +95,7 @@ This structure ensures:
 git clone https://github.com/<your-username>/heliodesk.git
 cd heliodesk
 npm install
-
+```
 
 Core dashboard layout implemented
 
