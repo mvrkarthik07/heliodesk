@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { IoDownloadOutline } from 'react-icons/io5'
+import { IoDownloadOutline, IoOpenOutline } from 'react-icons/io5'
 import { supabase } from '../../lib/supabase'
 
 export default function ResumeWidget() {
@@ -107,9 +107,22 @@ export default function ResumeWidget() {
     }
   }
 
+  const handleOpenFile = async (resume) => {
+    try {
+      if (!resume?.file_url) return
+      const isTauri = typeof window !== 'undefined' && window.__TAURI__ !== undefined
+      if (isTauri && window.__TAURI__?.core?.invoke) {
+        await window.__TAURI__.core.invoke('plugin:shell|open', { path: resume.file_url })
+      } else {
+        window.open(resume.file_url, '_blank', 'noopener,noreferrer')
+      }
+    } catch (err) {
+      console.error('Open file failed:', err)
+    }
+  }
+
   const handleDownload = async (resume) => {
     try {
-      // Prefer downloading directly from Supabase Storage (works in browser + Tauri webview)
       if (resume?.file_path) {
         const { data, error } = await supabase.storage.from('resumes').download(resume.file_path)
         if (error) throw error
@@ -124,15 +137,11 @@ export default function ResumeWidget() {
         URL.revokeObjectURL(blobUrl)
         return
       }
-
-      // Fallback: open public URL
       if (resume?.file_url) {
         window.open(resume.file_url, '_blank', 'noopener,noreferrer')
       }
     } catch (error) {
       console.error('Error downloading resume:', error)
-
-      // Last resort: try opening public URL in browser / external handler
       if (resume?.file_url) {
         try {
           const isTauri = typeof window !== 'undefined' && window.__TAURI__ !== undefined
@@ -226,6 +235,7 @@ export default function ResumeWidget() {
                 border: '1px solid var(--glass-border)',
                 borderRadius: '10px',
                 display: 'flex',
+                flexWrap: 'wrap',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 gap: '0.75rem',
@@ -249,7 +259,7 @@ export default function ResumeWidget() {
             >
               <div
                 style={{
-                  flex: 1,
+                  flex: '1 1 180px',
                   minWidth: 0,
                   display: 'flex',
                   flexDirection: 'column',
@@ -292,12 +302,45 @@ export default function ResumeWidget() {
               <div
                 style={{
                   display: 'flex',
+                  flexShrink: 0,
                   gap: '0.5rem',
-                  minWidth: '140px',
                   justifyContent: 'flex-end',
                   alignItems: 'center',
                 }}
               >
+                <button
+                  onClick={() => handleOpenFile(resume)}
+                  className="hover-glow"
+                  aria-label={`Open ${resume.file_name}`}
+                  style={{
+                    padding: '0.5rem',
+                    fontSize: '0.85rem',
+                    color: 'var(--text-secondary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    transition: 'all 0.3s ease',
+                    minWidth: '38px',
+                    height: '38px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = 'var(--accent)'
+                    e.target.style.borderColor = 'var(--accent)'
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)'
+                    e.target.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color = 'var(--text-secondary)'
+                    e.target.style.borderColor = 'var(--border)'
+                    e.target.style.background = 'rgba(255, 255, 255, 0.05)'
+                    e.target.style.transform = 'translateY(0)'
+                  }}
+                >
+                  <IoOpenOutline size={16} />
+                </button>
                 <button
                   onClick={() => handleDownload(resume)}
                   className="hover-glow"
