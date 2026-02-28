@@ -81,6 +81,7 @@ function App() {
   const [githubUrl, setGithubUrl] = useState(null)
   const [portfolioUrl, setPortfolioUrl] = useState(null)
   const loginContainerRef = useRef(null)
+  const isTauri = typeof window !== 'undefined' && window.__TAURI__
   const processingAuthCallback = useRef(false)
   const lastCallbackTime = useRef(0)
 
@@ -520,14 +521,21 @@ function App() {
         style={{
           minHeight: '100vh',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           flexDirection: 'column',
-          gap: '1rem',
-          padding: '2rem',
-          textAlign: 'center',
         }}
       >
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            gap: '1rem',
+            padding: '2rem',
+            textAlign: 'center',
+          }}
+        >
         <h1
           style={{
             fontSize: '1.5rem',
@@ -558,6 +566,7 @@ function App() {
           {`VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key`}
         </pre>
+        </div>
       </div>
     )
   }
@@ -568,12 +577,20 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key`}
         style={{
           minHeight: '100vh',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'var(--text-secondary)',
+          flexDirection: 'column',
         }}
       >
-        Loading...
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          Loading...
+        </div>
       </div>
     )
   }
@@ -882,8 +899,8 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key`}
           boxSizing: 'border-box',
         }}
       >
-        <Header 
-          onSignOut={handleSignOut} 
+        <Header
+          onSignOut={handleSignOut}
           onOpenSettings={() => setSettingsOpen(true)}
           focusMode={focusMode}
           onToggleFocus={() => setFocusMode((prev) => !prev)}

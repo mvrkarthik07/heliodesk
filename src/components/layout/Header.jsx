@@ -23,7 +23,7 @@ export default function Header({ onSignOut, onOpenSettings, focusMode, onToggleF
       className="glass"
       style={{
         padding: isMobile 
-          ? '1rem 1rem' 
+          ? '1rem 1rem'
           : isSmallRectangleScreen
           ? '1rem 1.5rem'
           : '1.5rem 2rem',
@@ -163,7 +163,7 @@ export default function Header({ onSignOut, onOpenSettings, focusMode, onToggleF
           onClick={onSignOut}
           className="hover-glow"
           style={{
-            padding: isMobile ? '0.4rem 0.75rem' : '0.5rem 1rem',
+            padding: isMobile '0.4rem 0.75rem' : '0.5rem 1rem',
             fontSize: isMobile ? '0.7rem' : '0.75rem',
             color: 'var(--text-secondary)',
             background: 'rgba(255, 255, 255, 0.05)',
